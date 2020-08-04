@@ -36,6 +36,9 @@ class MapTile:
     
     def is_barrier(self):
         return self.color == state_color_dictionary['barrier']
+
+    def is_water(self):
+        return self.color == state_color_dictionary['water']
     
     def is_start(self):
         return self.color == state_color_dictionary['start']
@@ -57,6 +60,9 @@ class MapTile:
     
     def make_barrier(self):
         self.color = state_color_dictionary['barrier']
+
+    def make_water(self):
+        self.color = state_color_dictionary['water']
     
     def make_end(self):
         self.color = state_color_dictionary['end']

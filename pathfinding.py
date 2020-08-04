@@ -12,6 +12,7 @@ def main(win, width):
 
     start = None
     end = None
+    terrain = 'mountain'
 
     run = True
 
@@ -33,8 +34,11 @@ def main(win, width):
                     end = tile
                     end.make_end()
             
-                elif tile != end and tile != start:
+                elif tile != end and tile != start and terrain == 'mountain':
                     tile.make_barrier()
+
+                elif tile != end and tile != start and terrain == 'water':
+                    tile.make_water()
 
             elif pygame.mouse.get_pressed()[2]: #right mouse button
                 pos = pygame.mouse.get_pos()
@@ -46,11 +50,14 @@ def main(win, width):
                 if  tile == end:
                     end = None
             
-
+            if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_c:
                     start = None
                     end = None
                     grid = maptile.make_grid(ROWS, width)
+
+                if event.key == pygame.K_t:
+                    terrain = 'water'
 
     pygame.quit()
 
