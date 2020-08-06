@@ -1,14 +1,19 @@
 import pygame
+import pygame_gui
+
 import maptile
 import utils
 
-WIDTH = 800
+HEIGHT = 800
+WIDTH = 1000
 ROWS = 80
-WIN = pygame.display.set_mode((WIDTH, WIDTH))
+WIN = pygame.display.set_mode((WIDTH, HEIGHT))
+manager = pygame_gui.UIManager((WIDTH, HEIGHT))
+
 pygame.display.set_caption("Path finding Algorithm")
 
-def main(win, width):
-    grid = maptile.make_grid(ROWS, width)
+def main(win, HEIGHT):
+    grid = maptile.make_grid(ROWS, HEIGHT)
 
     start = None
     end = None
@@ -17,14 +22,14 @@ def main(win, width):
     run = True
 
     while run:
-        maptile.draw(win, grid, ROWS, width)
+        maptile.draw(win, grid, ROWS, HEIGHT)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
 
             if pygame.mouse.get_pressed()[0]: #left mouse button
                 pos = pygame.mouse.get_pos()
-                row, col = utils.get_clicked_pos(pos, ROWS, width)
+                row, col = utils.get_clicked_pos(pos, ROWS, HEIGHT)
                 tile = grid[row][col]
                 if not start and tile != end:
                     start = tile
@@ -42,7 +47,7 @@ def main(win, width):
 
             elif pygame.mouse.get_pressed()[2]: #right mouse button
                 pos = pygame.mouse.get_pos()
-                row, col = utils.get_clicked_pos(pos, ROWS, width)
+                row, col = utils.get_clicked_pos(pos, ROWS, HEIGHT)
                 tile = grid[row][col]
                 tile.reset()
                 if tile == start:
@@ -54,11 +59,11 @@ def main(win, width):
                 if event.key == pygame.K_c:
                     start = None
                     end = None
-                    grid = maptile.make_grid(ROWS, width)
+                    grid = maptile.make_grid(ROWS, HEIGHT)
 
                 if event.key == pygame.K_t:
                     terrain = 'water'
 
     pygame.quit()
 
-main(WIN, WIDTH)
+main(WIN, HEIGHT)
