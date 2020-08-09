@@ -111,8 +111,6 @@ def draw_grid(win, rows, width):
 
 
 def draw(win, grid, rows, width):
-    win.fill(state_color_dictionary['grass'])
-
     for row in grid:
         for tile in row:
             tile.draw(win)

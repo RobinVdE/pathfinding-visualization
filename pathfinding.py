@@ -1,6 +1,7 @@
 import pygame
 
 import maptile
+import sidebar
 import utils
 
 WINDOW_HEIGHT = 850
@@ -18,6 +19,7 @@ bottom_info_rect = pygame.Rect(0, MAP_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT - MAP_
 
 def main(win, HEIGHT):
     grid = maptile.make_grid(ROWS, MAP_WIDTH)
+    side = sidebar.make_sidebar(WINDOW_HEIGHT, WINDOW_WIDTH, MAP_WIDTH)
 
     start = None
     end = None
@@ -27,6 +29,7 @@ def main(win, HEIGHT):
 
     while run:
         maptile.draw(win, grid, ROWS, MAP_WIDTH)
+        side.draw_sidebar(win)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
