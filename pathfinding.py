@@ -1,19 +1,23 @@
 import pygame
-import pygame_gui
 
 import maptile
 import utils
 
-HEIGHT = 800
-WIDTH = 1000
-ROWS = 80
-WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-manager = pygame_gui.UIManager((WIDTH, HEIGHT))
+WINDOW_HEIGHT = 850
+WINDOW_WIDTH = 1000
 
+MAP_HEIGHT = 800
+MAP_WIDTH = MAP_HEIGHT
+
+ROWS = 80
+WIN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("Path finding Algorithm")
 
+bottom_info_rect = pygame.Rect(0, MAP_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT - MAP_HEIGHT)
+
+
 def main(win, HEIGHT):
-    grid = maptile.make_grid(ROWS, HEIGHT)
+    grid = maptile.make_grid(ROWS, MAP_WIDTH)
 
     start = None
     end = None
@@ -22,14 +26,14 @@ def main(win, HEIGHT):
     run = True
 
     while run:
-        maptile.draw(win, grid, ROWS, HEIGHT)
+        maptile.draw(win, grid, ROWS, MAP_WIDTH)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
 
             if pygame.mouse.get_pressed()[0]: #left mouse button
                 pos = pygame.mouse.get_pos()
-                row, col = utils.get_clicked_pos(pos, ROWS, HEIGHT)
+                row, col = utils.get_clicked_pos(pos, ROWS, MAP_WIDTH)
                 tile = grid[row][col]
                 if not start and tile != end:
                     start = tile
@@ -47,7 +51,7 @@ def main(win, HEIGHT):
 
             elif pygame.mouse.get_pressed()[2]: #right mouse button
                 pos = pygame.mouse.get_pos()
-                row, col = utils.get_clicked_pos(pos, ROWS, HEIGHT)
+                row, col = utils.get_clicked_pos(pos, ROWS, MAP_WIDTH)
                 tile = grid[row][col]
                 tile.reset()
                 if tile == start:
@@ -59,11 +63,15 @@ def main(win, HEIGHT):
                 if event.key == pygame.K_c:
                     start = None
                     end = None
-                    grid = maptile.make_grid(ROWS, HEIGHT)
+                    grid = maptile.make_grid(ROWS, MAP_WIDTH)
 
-                if event.key == pygame.K_t:
-                    terrain = 'water'
+                if event.key == pygame.K_t:  
+                    if terrain == 'mountain':
+                        terrain = 'water'
+                    else:
+                        terrain = 'mountain'
+
 
     pygame.quit()
 
-main(WIN, HEIGHT)
+main(WIN, MAP_WIDTH)
